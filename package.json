@@ -10,13 +10,16 @@
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\""
   },
-  "author": "Brad Traversy",
+  "author": "Juha Kovero",
   "license": "MIT",
   "devDependencies": {
     "nodemon": "^1.14.6"
   },
   "dependencies": {
+    "body-parser": "^1.18.3",
     "concurrently": "^3.5.1",
-    "express": "^4.16.2"
+    "express": "^4.16.2",
+    "uuid": "^3.2.1",
+    "web-push": "^3.3.1"
   }
 }
