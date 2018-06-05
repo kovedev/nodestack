@@ -1,4 +1,5 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const webpush = require('web-push');
 const bodyParser = require('body-parser');
 const path = require('path');
@@ -7,17 +8,48 @@ const app = express();
 
 app.use(bodyParser.json());
 
+let customersArray = [];
+let customersCollection;
+
+mongoose.connect('mongodb://127.0.0.1/mycustomers');
+let db = mongoose.connection;
+
+// Check connection
+db.once('open', () => {
+  console.log('MongoDB connected...');
+})
+
+// Check for DB errors
+db.on('error', (err) =>{
+  console.log(err);
+})
+
+let Customer = require('./model/customer');
+
 // rest
 app.get('/api/customers', (req, res) => {
-  // TODO: Connect to MongoDB
-  const customers = [
-    {id: 1, firstName: 'One', lastName: 'Man'},
-    {id: 2, firstName: 'Jack', lastName: 'Smith'},
-    {id: 3, firstName: 'Mary', lastName: 'Jenkins'},
-  ];
-
-  res.json(customers);
+  Customer.find({}, (err, customers) => {
+    if(err)
+      console.log(err);
+    else
+      res.json(customers);
+  });
 });
+
+app.post('/api/customers', (req, res) => {
+  let customer = new Customer();
+  customer.firstName = req.body.firstName;
+  customer.lastName = req.body.lastName;
+
+  customer.save((err)=>{
+    if(err){
+      console.log(err);
+      return;
+    } else {
+      console.log('Customer added...');
+    }
+  });
+}); 
 
 // TODO: WS
 

@@ -1,31 +1,26 @@
 import React, { Component } from 'react';
 import './customers.css';
+import CustomerItem from './customeritem.js'
 
 class Customers extends Component {
-  constructor() {
-    super();
-    this.state = {
-      customers: []
-    };
-  }
 
-  componentDidMount() {
-    fetch('/api/customers')
-      .then(res => res.json())
-      .then(customers => this.setState({customers}, () => console.log('Customers fetched...', customers)));
+  deleteCustomer(id){
+    this.props.onDelete(id);
   }
 
   render() {
-    return (
-      <div>
-        <h2>Customers</h2>
-        <ul>
-        {this.state.customers.map(customer => 
-          <li key={customer.id}>{customer.firstName} {customer.lastName}</li>
-        )}
-        </ul>
+    let customerItems;
+    if(this.props.customers){
+      customerItems = this.props.customers.map(customer =>
+        <CustomerItem onDelete={this.deleteCustomer.bind(this)} key={customer._id} customer={customer}/>
+      );
+    };
+
+    // console.log(this.props);    
+    return <div className="Customers">
+        Customers:
+        {customerItems}
       </div>
-    );
   }
 }
 
