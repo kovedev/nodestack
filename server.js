@@ -26,7 +26,7 @@ db.on('error', (err) =>{
 
 let Customer = require('./model/customer');
 
-// rest
+// Fetch customers method
 app.get('/api/customers', (req, res) => {
   Customer.find({}, (err, customers) => {
     if(err)
@@ -36,6 +36,7 @@ app.get('/api/customers', (req, res) => {
   });
 });
 
+// Add customer method
 app.post('/api/customers', (req, res) => {
   let customer = new Customer();
   customer.firstName = req.body.firstName;
@@ -50,6 +51,8 @@ app.post('/api/customers', (req, res) => {
     }
   });
 }); 
+
+// app.delete customer
 
 // TODO: WS
 

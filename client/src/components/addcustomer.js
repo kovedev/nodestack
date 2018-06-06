@@ -1,4 +1,8 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { createCustomer } from '../actions/customerActions';
+
 import uuid from 'uuid';
 
 class AddCustomer extends Component {
@@ -13,15 +17,12 @@ class AddCustomer extends Component {
     if(this.refs.firstName.value === ''){
       alert('Name is required');
     } else {
-      this.setState({newCustomer:{
-        _id: uuid.v4(),
+      const customer = {
         firstName: this.refs.firstName.value,
         lastName: this.refs.lastName.value
-      }}, function(){
-            this.props.addcustomer(this.state.newCustomer);
-      });
+      }
+      this.props.createCustomer(customer);
     }
-
     e.preventDefault();
   }
 
@@ -46,4 +47,8 @@ class AddCustomer extends Component {
   }
 }
 
-export default AddCustomer;  
+AddCustomer.propTypes = {
+  createCustomer: PropTypes.func.isRequired
+};
+
+export default connect(null, { createCustomer })(AddCustomer);
