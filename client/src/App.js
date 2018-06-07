@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import uuid from 'uuid';
 import { Provider } from 'react-redux';
 
 import './App.css';
@@ -45,8 +44,8 @@ class App extends Component {
     return (
       <Provider store={store}>
         <div className="App">
-            <Customers/>
             <AddCustomer/> 
+            <Customers/>
         </div>
       </Provider>
     );

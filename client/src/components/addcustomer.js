@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createCustomer } from '../actions/customerActions';
 
-import uuid from 'uuid';
-
 class AddCustomer extends Component {
   constructor(){
     super();

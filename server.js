@@ -42,18 +42,37 @@ app.post('/api/customers', (req, res) => {
   customer.firstName = req.body.firstName;
   customer.lastName = req.body.lastName;
 
-  customer.save((err)=>{
-    if(err){
+  customer.save((err) => {
+    if(err) {
       console.log(err);
       return;
     } else {
-      console.log('Customer added...');
+      Customer.find({}, (err, customers) => {
+        if(err)
+          console.log(err);
+        else
+          res.json(customers);
+      });
     }
   });
 }); 
 
 // app.delete customer
-
+app.delete('/api/customers', (req, res) => {
+  Customer.remove({_id: req.body._id}, (err) => {
+    if(err) {
+      console.log(err);
+      return;
+    } else {
+      Customer.find({}, (err, customers) => {
+        if(err)
+          console.log(err);
+        else
+          res.json(customers);
+      });
+    }
+  });
+});
 // TODO: WS
 
 // PUSH NOTIFICATIONS

@@ -1,8 +1,7 @@
 import { FETCH_CUSTOMERS, NEW_CUSTOMER } from '../actions/types';
 
 const initialState = {
-  customers: [],
-  customer: {}
+  customers: []
 }
 
 export default function(state = initialState, action){
@@ -15,7 +14,7 @@ export default function(state = initialState, action){
     case NEW_CUSTOMER:
       return {
         ...state,
-        customer: action.payload
+        customers: action.payload
       }
     default:
       return state;

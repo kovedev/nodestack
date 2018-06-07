@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import './customers.css';
 import PropTypes from 'prop-types';
 import CustomerItem from './customeritem.js'
 import { connect } from 'react-redux';
-import { fetchCustomers } from '../actions/customerActions'
+import { fetchCustomers } from '../actions/customerActions';
+import { deleteCustomer } from '../actions/customerActions';
 
 class Customers extends Component {
 
@@ -12,25 +12,28 @@ class Customers extends Component {
   }
 
   componentWillReceiveProps(nextProps){
-    if(nextProps.newCustomer){
-      console.log('Hello there!');
-      this.props.customers.unshift(nextProps.newCustomer);
+    if(nextProps.createCustomer){
+      this.props.customers.unshift(nextProps.createCustomer);
     }
   }
 
-  deleteCustomer(id){
-    this.props.onDelete(id);
+  deleteCustomer(customer){
+    this.props.deleteCustomer(customer);
+  }
+
+  updateCustomer(customer){
+    alert
   }
 
   render() {
     const customers = this.props.customers.map(customer => (
       <div key={customer._id}>
-        <h3>{customer.firstName} {customer.lastName}</h3>
+        <label>{customer.firstName} {customer.lastName} <a href="#" onClick={this.deleteCustomer.bind(this, customer)}>Delete</a> <a href="#" onClick={this.updateCustomer.bind(this, customer)}>Update</a> </label>
       </div>
     ));
     return (
       <div>
-        <h1>Customers</h1>
+        <h3>Customers</h3>
         {customers}
       </div>
     );
@@ -53,15 +56,15 @@ class Customers extends Component {
 }
 
 postMessage.propTypes = {
-  fetchPosts: PropTypes.func.isRequired,
-  posts: PropTypes.array.isRequired,
+  fetchCustomers: PropTypes.func.isRequired,
+  deleteCustomer: PropTypes.func.isRequired,
+  customers: PropTypes.array.isRequired,
   newCustomer: PropTypes.object
 };
 
 const mapStateToProps = state => ({
   customers: state.customers.customers,
-  newCustomer: state.customers.customer
+  newCustomer: state.customers.customers
 });
 
-
-export default connect(mapStateToProps, { fetchCustomers })(Customers);
+export default connect(mapStateToProps, { fetchCustomers, deleteCustomer })(Customers);

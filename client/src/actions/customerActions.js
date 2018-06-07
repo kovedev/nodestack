@@ -10,36 +10,36 @@ export const fetchCustomers = () => dispatch => {
   }));
 }
 
-export const createCustomer = (customerData) => dispatch => {
+export const createCustomer = customerData => dispatch => {
   fetch('/api/customers', {
-    method: 'POST', // or 'PUT'
-    body: JSON.stringify(customerData), // data can be `string` or {object}!
-    headers:{
-      'Content-Type': 'application/json'
-    }
-  }).then(res => res.json())
-  .catch(error => console.error('Error:', error))
-  .then(customer => 
-    dispatch({
-      type:  NEW_CUSTOMER,
-      payload: customer
-  }));
-}
+    method: 'POST',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(customerData)
+  })
+    .then(res => res.json())
+    .then(customers =>
+      dispatch({
+        type: NEW_CUSTOMER,
+        payload: customers
+      })
+  );
+};
 
-/*
-  handleAddCustomer(customer){
-    let customers = this.state.customers;
-    customers.push(customer);
-    this.setState({customers:customers});
-
-    fetch('/api/customers', {
-      method: 'POST', // or 'PUT'
-      body: JSON.stringify(customer), // data can be `string` or {object}!
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    }).then(res => res.json())
-    .catch(error => console.error('Error:', error))
-    .then(response => console.log('Success:', response));
-  }
-*/
+export const deleteCustomer = customerToDelete => dispatch => {
+  fetch('/api/customers', {
+    method: 'DELETE',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(customerToDelete)
+  })
+    .then(res => res.json())
+    .then(customers =>
+      dispatch({
+        type: NEW_CUSTOMER,
+        payload: customers
+      })
+  );
+};
