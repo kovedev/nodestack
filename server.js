@@ -73,6 +73,30 @@ app.delete('/api/customers', (req, res) => {
     }
   });
 });
+
+// Add customer method
+app.put('/api/customers', (req, res) => {
+
+  Customer.findById(req.body._id, (err, customer) => {
+  if (err) return handleError(err);
+
+    customer.set({ firstName: req.body.firstName, lastName: req.body.lastName });
+    customer.save((err) => {
+      if(err) {
+        console.log(err);
+        return;
+      } else {
+        Customer.find({}, (err, customers) => {
+          if(err)
+            console.log(err);
+          else
+            res.json(customers);
+        });
+      }
+    });
+  });
+});
+
 // TODO: WS
 
 // PUSH NOTIFICATIONS
@@ -88,7 +112,6 @@ app.post('/subscribe', (req, res) => {
   // Get pushSubscribtion object
   const subscribtion = req.body;
 });
-
 
 // TODO: IMAGE UPLOAD
 

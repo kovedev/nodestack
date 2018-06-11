@@ -43,3 +43,20 @@ export const deleteCustomer = customerToDelete => dispatch => {
       })
   );
 };
+
+export const updateCustomer = customerData => dispatch => {
+  fetch('/api/customers', {
+    method: 'PUT',
+    headers: {
+      'content-type': 'application/json'
+    },
+    body: JSON.stringify(customerData)
+  })
+    .then(res => res.json())
+    .then(customers =>
+      dispatch({
+        type: NEW_CUSTOMER, // UPDATE_CUSTOMER
+        payload: customers
+      })
+  );
+};

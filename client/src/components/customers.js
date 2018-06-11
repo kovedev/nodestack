@@ -4,26 +4,19 @@ import CustomerItem from './customeritem.js'
 import { connect } from 'react-redux';
 import { fetchCustomers } from '../actions/customerActions';
 import { deleteCustomer } from '../actions/customerActions';
+import { updateCustomer } from '../actions/customerActions';
+import customStyles from './customStyles.js';
 // import './customers.css';
 
 import Modal from 'react-modal';
-const customStyles = {
-  content : {
-    top                   : '25%',
-    left                  : '50%',
-    right                 : 'auto',
-    bottom                : 'auto',
-    marginRight           : '-50%',
-    transform             : 'translate(-50%, -50%)'
-  }
-};
 
 class Customers extends Component {
   constructor() {
     super();
 
     this.state = {
-      modalIsOpen: false
+      modalIsOpen: false,
+      customerToUpdate: null
     };
 
     this.openModal = this.openModal.bind(this);
@@ -48,20 +41,40 @@ class Customers extends Component {
   }
 
   handleSubmit(event) {
-    console.log(`A name was Updated: ${this.firstName.value} ${this.lastName.value}`);
+    if(this.firstName.value === ''){
+      alert('Name is required');
+    } else {
+      const customer = {
+        _id: this.state.customerToUpdate,
+        firstName: this.firstName.value,
+        lastName: this.lastName.value
+      }
+      this.props.updateCustomer(customer);
+      this.closeModal();
+    }
 
-    //update 
     event.preventDefault();
   }
-  openModal() {
-    this.setState({modalIsOpen: true});
+
+  openModal(customer) {
+    this.setState(
+      {
+        modalIsOpen: true,
+        customerToUpdate: customer._id
+      }
+    );
   }
 
   afterOpenModal() {
   }
 
   closeModal() {
-    this.setState({modalIsOpen: false});
+    this.setState(
+      {
+        modalIsOpen: false,
+        customerToUpdate: null
+      }
+    );
   }
 
   render() {
@@ -70,7 +83,7 @@ class Customers extends Component {
         <label>
           {customer.firstName} {customer.lastName}<a> </a> 
           <a href="#" onClick={this.deleteCustomer.bind(this, customer)}>Delete</a><a> </a>
-          <a href="#" onClick={this.openModal}>Update</a>
+          <a href="#" onClick={this.openModal.bind(this, customer)}>Update</a>
           <Modal
             isOpen={this.state.modalIsOpen}
             onAfterOpen={this.afterOpenModal}
@@ -123,6 +136,7 @@ class Customers extends Component {
 postMessage.propTypes = {
   fetchCustomers: PropTypes.func.isRequired,
   deleteCustomer: PropTypes.func.isRequired,
+  updateCustomer: PropTypes.func.isRequired,
   customers: PropTypes.array.isRequired,
   newCustomer: PropTypes.object
 };
@@ -132,4 +146,4 @@ const mapStateToProps = state => ({
   newCustomer: state.customers.customers
 });
 
-export default connect(mapStateToProps, { fetchCustomers, deleteCustomer })(Customers);
+export default connect(mapStateToProps, { fetchCustomers, deleteCustomer, updateCustomer })(Customers);
