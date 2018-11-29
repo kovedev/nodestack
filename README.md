@@ -1,10 +1,6 @@
-# React Express Starter Pack
+# React Redux Express Mongoose Project 
 
-> Create full stack apps with React and Express. Run your client and server with a single command. 
-
-### Redux Version
-This version does not include Redux
-[Click Here For Redux Version](https://github.com/bradtraversy/react_redux_express_starter) 
+> Full stack project based on https://github.com/bradtraversy/react_express_starter project
 
 ## Quick Start
 
@@ -31,6 +27,9 @@ npm run client
 
 ### Author
 
+Juha Kovero
+
+### Credit
 Brad Traversy
 [Traversy Media](http://www.traversymedia.com)
 
